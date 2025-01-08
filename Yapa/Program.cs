@@ -43,8 +43,10 @@ namespace Yapa
                 .SetTitle("Yapa");
 
             AppDomain.CurrentDomain.UnhandledException += (sender, error) => { app.MainWindow.ShowMessage("Fatal exception", error.ExceptionObject.ToString()); };
-
+            
             app.Run();
+            
+            sessionFactory?.Dispose();
         }
     }
 }
