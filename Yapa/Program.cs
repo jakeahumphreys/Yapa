@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using MudBlazor.Services;
 using Photino.Blazor;
 
 namespace Yapa
@@ -12,7 +13,8 @@ namespace Yapa
             var appBuilder = PhotinoBlazorAppBuilder.CreateDefault(args);
 
             appBuilder.Services
-                .AddLogging();
+                .AddLogging()
+                .AddMudServices();
 
             // register root component and selector
             appBuilder.RootComponents.Add<App>("app");
