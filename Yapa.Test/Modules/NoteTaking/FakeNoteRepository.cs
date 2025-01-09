@@ -36,7 +36,7 @@ public sealed class FakeNoteRepository : INoteRepository
     public async Task Archive(Note note)
     {
         var noteToArchive = _notes.SingleOrDefault(n => n.Id == note.Id);
-        noteToArchive.IsArchived = note.IsArchived;
+        noteToArchive.IsArchived = true;
     }
 
     public async Task<IList<Note>> GetArchivedNotes()
