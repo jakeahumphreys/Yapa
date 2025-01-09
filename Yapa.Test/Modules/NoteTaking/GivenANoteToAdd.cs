@@ -10,7 +10,6 @@ namespace Yapa.Test.Modules.NoteTaking;
 public sealed class GivenANoteToAdd
 {
     private Mock<INoteRepository> _noteRepository;
-    private DateTime _date;
     private FakeTimeProvider _timeProvider;
 
     [OneTimeSetUp]
@@ -19,7 +18,6 @@ public sealed class GivenANoteToAdd
         _noteRepository = new Mock<INoteRepository>();
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
         var subject = new NoteService(_noteRepository.Object, _timeProvider);
-        _date = new DateTime(2020, 1, 1);
 
         await subject.CreateNote(new Note
         {
