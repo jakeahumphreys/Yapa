@@ -19,8 +19,8 @@ public sealed class WhenGettingAllNotes
         _noteRepository = new FakeNoteRepository();
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
         
-        _noteRepository.Add(new Note
-        {
+       await _noteRepository.Add(new Note
+       {
             Id = Guid.Parse("7e93eba1-8c6b-4534-bbcc-227462a6d3df"),
             Collection = null,
             Content = "Test Content",
@@ -28,9 +28,9 @@ public sealed class WhenGettingAllNotes
             IsArchived = false,
             ModifiedOn = _timeProvider.GetUtcNow().DateTime,
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
-        });
+       });
 
-        _noteRepository.Add(new Note
+        await _noteRepository.Add(new Note
         {
             Id = Guid.Parse("15b1f591-bf92-4a8f-bbce-0f336d5b2492"),
             Collection = null,

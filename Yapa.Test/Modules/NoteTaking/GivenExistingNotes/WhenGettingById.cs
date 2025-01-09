@@ -22,7 +22,7 @@ public sealed class WhenGettingById
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
 
-        _noteRepository.Add(new Note
+        await _noteRepository.Add(new Note
         {
             Id = _noteId,
             Collection = null,

@@ -32,7 +32,7 @@ public sealed class WhenUpdatingANote
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
         };
 
-        _noteRepository.Add(note);
+        await _noteRepository.Add(note);
         
         var subject = new NoteService(_noteRepository, _timeProvider);
 
