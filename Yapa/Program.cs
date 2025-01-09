@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using Photino.Blazor;
 using Yapa.Data;
+using Yapa.Modules.NoteTaking;
 
 namespace Yapa
 {
@@ -30,7 +31,10 @@ namespace Yapa
             appBuilder.Services
                 .AddLogging()
                 .AddMudServices()
-                .AddSingleton(sessionFactory);
+                .AddSingleton(sessionFactory)
+                .AddSingleton<INoteRepository, NoteRepository>()
+                .AddSingleton<INoteService, NoteService>()
+                .AddSingleton(TimeProvider.System);
 
             // register root component and selector
             appBuilder.RootComponents.Add<App>("app");
