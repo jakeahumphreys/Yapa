@@ -51,7 +51,7 @@ public sealed class NHibernateConfig
             currentVersion = null;
         }
 
-        if (currentVersion == null ||currentVersion.VersionNumber < TARGET_VERSION)
+        if (currentVersion == null || currentVersion.VersionNumber < TARGET_VERSION)
         {
             var schemaUpdate = new SchemaUpdate(config);
             schemaUpdate.Execute(false, true);
