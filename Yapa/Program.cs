@@ -34,7 +34,7 @@ namespace Yapa
                 .AddSingleton(sessionFactory)
                 .AddSingleton<INoteRepository, NoteRepository>()
                 .AddSingleton<ICollectionRepository, CollectionRepository>()
-                .AddSingleton<INoteService, NoteService>()
+                .AddSingleton<NoteService>()
                 .AddSingleton(TimeProvider.System);
 
             // register root component and selector

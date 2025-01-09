@@ -9,38 +9,33 @@ public sealed class FakeNoteRepository : INoteRepository
     
     public async Task<NoteRecord> GetById(Guid id)
     {
-        return _notes.SingleOrDefault(n => n.Id == id);
+        return (await Task.FromResult(_notes.FirstOrDefault(x => x.Id == id)))!;
     }
 
     public async Task<IList<NoteRecord>> GetAll()
     {
-        return _notes;
+        return await Task.FromResult(_notes);
     }
 
     public async Task<IList<NoteRecord>> GetByCollection(Guid collectionId)
     {
-        return _notes.Where(x => x.CollectionRecord.Id == collectionId).ToList();
+        return await Task.FromResult(_notes.Where(x => x.CollectionRecord.Id == collectionId).ToList());
     }
 
-    public async Task Add(NoteRecord noteRecord)
+    public async Task<NoteRecord> Add(NoteRecord noteRecord)
     {
         _notes.Add(noteRecord);
+        return await Task.FromResult(noteRecord);
     }
 
-    public async Task Update(NoteRecord noteRecord)
+    public async Task<NoteRecord> Update(NoteRecord noteRecord)
     {
-        var noteToUpdate = _notes.SingleOrDefault(n => n.Id == noteRecord.Id);
-        noteToUpdate = noteRecord;
-    }
-
-    public async Task Archive(NoteRecord noteRecord)
-    {
-        var noteToArchive = _notes.SingleOrDefault(n => n.Id == noteRecord.Id);
-        noteToArchive.IsArchived = true;
+        _notes.FirstOrDefault(n => n.Id == noteRecord.Id);
+        return await Task.FromResult(noteRecord);
     }
 
     public async Task<IList<NoteRecord>> GetArchivedNotes()
     {
-        return _notes.Where(x => x.IsArchived).ToList();
+        return await Task.FromResult(_notes.Where(x => x.IsArchived).ToList());
     }
 }

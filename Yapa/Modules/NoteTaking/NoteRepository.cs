@@ -13,9 +13,8 @@ public interface INoteRepository
     Task<NoteRecord> GetById(Guid id);
     Task<IList<NoteRecord>> GetAll();
     Task<IList<NoteRecord>> GetByCollection(Guid collectionId);
-    Task Add(NoteRecord noteRecord);
-    Task Update(NoteRecord noteRecord);
-    Task Archive(NoteRecord noteRecord);
+    Task<NoteRecord> Add(NoteRecord noteRecord);
+    Task<NoteRecord> Update(NoteRecord noteRecord);
     Task<IList<NoteRecord>> GetArchivedNotes();
 }
 
@@ -48,38 +47,24 @@ public class NoteRepository : INoteRepository
             .ToListAsync();
     }
 
-    public async Task Add(NoteRecord noteRecord)
+    public async Task<NoteRecord> Add(NoteRecord noteRecord)
     {
-        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
-
         using var session = _sessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         await session.SaveAsync(noteRecord);
         await transaction.CommitAsync();
+        return noteRecord;
     }
 
-    public async Task Update(NoteRecord noteRecord)
+    public async Task<NoteRecord> Update(NoteRecord noteRecord)
     {
-        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
-
         using var session = _sessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         await session.UpdateAsync(noteRecord);
         await transaction.CommitAsync();
-    }
-
-    public async Task Archive(NoteRecord noteRecord)
-    {
-        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
-
-        using var session = _sessionFactory.OpenSession();
-        using var transaction = session.BeginTransaction();
-
-        noteRecord.IsArchived = true; // Mark as archived
-        await session.UpdateAsync(noteRecord);
-        await transaction.CommitAsync();
+        return noteRecord;
     }
 
     public async Task<IList<NoteRecord>> GetArchivedNotes()

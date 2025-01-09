@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Yapa.Common.Types;
 using Yapa.Modules.NoteTaking.Types;
 
 namespace Yapa.Modules.NoteTaking;
 
-public interface INoteService
-{
-    Task<NoteRecord> GetNoteById(Guid id);
-    Task<IList<NoteRecord>> GetAllNotes();
-    Task<IList<NoteRecord>> GetNotesByCollection(Guid collectionId);
-    Task<IList<NoteRecord>> GetArchivedNotes();
-    Task CreateNote(NoteRecord noteRecord);
-    Task<NoteRecord> UpdateNote(NoteRecord noteRecord);
-    Task ArchiveNote(Guid noteId);
-}
-
-public class NoteService : INoteService
+public class NoteService
 {
     private readonly INoteRepository _noteRepository;
     private readonly TimeProvider _timeProvider;
@@ -27,9 +17,14 @@ public class NoteService : INoteService
         _timeProvider = timeProvider;
     }
 
-    public async Task<NoteRecord> GetNoteById(Guid id)
+    public async Task<Result<NoteRecord>> GetNoteById(Guid id)
     {
-        return await _noteRepository.GetById(id);
+        var noteById = await _noteRepository.GetById(id);
+        
+        if(noteById == null)
+            return Result<NoteRecord>.Failure($"A note with id {id} was not found");
+        
+        return Result<NoteRecord>.Success(noteById);
     }
 
     public async Task<IList<NoteRecord>> GetAllNotes()
@@ -64,13 +59,5 @@ public class NoteService : INoteService
         await _noteRepository.Update(noteRecord);
 
         return noteRecord;
-    }
-
-    public async Task ArchiveNote(Guid noteId)
-    {
-        var note = await _noteRepository.GetById(noteId);
-        if (note == null) throw new KeyNotFoundException($"No note found with ID {noteId}");
-
-        await _noteRepository.Archive(note);
     }
 }

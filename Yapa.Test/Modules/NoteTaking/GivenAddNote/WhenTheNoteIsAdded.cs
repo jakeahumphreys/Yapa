@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Time.Testing;
-using Moq;
+using Yapa.Common.Types;
 using Yapa.Modules.NoteTaking;
 using Yapa.Modules.NoteTaking.Types;
 using Yapa.Test.Modules.NoteTaking.Helpers;
 
-namespace Yapa.Test.Modules.NoteTaking;
+namespace Yapa.Test.Modules.NoteTaking.GivenAddNote;
 
 [TestFixture]
 [Parallelizable]
-public sealed class GivenANoteToAdd
+public sealed class WhenTheNoteIsAdded
 {
     private FakeTimeProvider _timeProvider;
     private FakeNoteRepository _noteRepository;
-    private NoteRecord _result;
+    private Result<NoteRecord> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
@@ -38,12 +38,12 @@ public sealed class GivenANoteToAdd
     public void ThenTheNoteIsAddedToTheRepository()
     {
      
-        Assert.That(_result.Content, Is.EqualTo("Test Content"));
-        Assert.That(_result.Title, Is.EqualTo("Test Note"));
-        Assert.That(_result.CreatedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
-        Assert.That(_result.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
-        Assert.That(_result.IsArchived, Is.False);
-        Assert.That(_result.Id, Is.EqualTo(Guid.Parse("60d0c577-95aa-4255-b652-a40b3c686716")));
-        Assert.That(_result.CollectionRecord, Is.Null);
+        Assert.That(_result.Content.Content, Is.EqualTo("Test Content"));
+        Assert.That(_result.Content.Title, Is.EqualTo("Test Note"));
+        Assert.That(_result.Content.CreatedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
+        Assert.That(_result.Content.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
+        Assert.That(_result.Content.IsArchived, Is.False);
+        Assert.That(_result.Content.Id, Is.EqualTo(Guid.Parse("60d0c577-95aa-4255-b652-a40b3c686716")));
+        Assert.That(_result.Content.CollectionRecord, Is.Null);
     }
 }
