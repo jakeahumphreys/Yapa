@@ -2,6 +2,7 @@
 using Moq;
 using Yapa.Modules.NoteTaking;
 using Yapa.Modules.NoteTaking.Types;
+using Yapa.Test.Modules.NoteTaking.Helpers;
 
 namespace Yapa.Test.Modules.NoteTaking.GivenExistingNotes;
 
