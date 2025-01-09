@@ -12,7 +12,7 @@ public sealed class GivenANoteToAdd
 {
     private FakeTimeProvider _timeProvider;
     private FakeNoteRepository _noteRepository;
-    private Note _result;
+    private NoteRecord _result;
 
     [OneTimeSetUp]
     public async Task Setup()
@@ -22,10 +22,10 @@ public sealed class GivenANoteToAdd
         var subject = new NoteService(_noteRepository, _timeProvider);
 
         var noteId = Guid.Parse("60d0c577-95aa-4255-b652-a40b3c686716");
-        await subject.CreateNote(new Note
+        await subject.CreateNote(new NoteRecord
         {
             Id = noteId,
-            Collection = null,
+            CollectionRecord = null,
             Content = "Test Content",
             Title = "Test Note",
             IsArchived = false,
@@ -44,6 +44,6 @@ public sealed class GivenANoteToAdd
         Assert.That(_result.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
         Assert.That(_result.IsArchived, Is.False);
         Assert.That(_result.Id, Is.EqualTo(Guid.Parse("60d0c577-95aa-4255-b652-a40b3c686716")));
-        Assert.That(_result.Collection, Is.Null);
+        Assert.That(_result.CollectionRecord, Is.Null);
     }
 }

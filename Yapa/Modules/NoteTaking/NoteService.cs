@@ -7,12 +7,12 @@ namespace Yapa.Modules.NoteTaking;
 
 public interface INoteService
 {
-    Task<Note> GetNoteById(Guid id);
-    Task<IList<Note>> GetAllNotes();
-    Task<IList<Note>> GetNotesByCollection(Guid collectionId);
-    Task<IList<Note>> GetArchivedNotes();
-    Task CreateNote(Note note);
-    Task<Note> UpdateNote(Note note);
+    Task<NoteRecord> GetNoteById(Guid id);
+    Task<IList<NoteRecord>> GetAllNotes();
+    Task<IList<NoteRecord>> GetNotesByCollection(Guid collectionId);
+    Task<IList<NoteRecord>> GetArchivedNotes();
+    Task CreateNote(NoteRecord noteRecord);
+    Task<NoteRecord> UpdateNote(NoteRecord noteRecord);
     Task ArchiveNote(Guid noteId);
 }
 
@@ -27,43 +27,43 @@ public class NoteService : INoteService
         _timeProvider = timeProvider;
     }
 
-    public async Task<Note> GetNoteById(Guid id)
+    public async Task<NoteRecord> GetNoteById(Guid id)
     {
         return await _noteRepository.GetById(id);
     }
 
-    public async Task<IList<Note>> GetAllNotes()
+    public async Task<IList<NoteRecord>> GetAllNotes()
     {
         return await _noteRepository.GetAll();
     }
 
-    public async Task<IList<Note>> GetNotesByCollection(Guid collectionId)
+    public async Task<IList<NoteRecord>> GetNotesByCollection(Guid collectionId)
     {
         return await _noteRepository.GetByCollection(collectionId);
     }
 
-    public async Task<IList<Note>> GetArchivedNotes()
+    public async Task<IList<NoteRecord>> GetArchivedNotes()
     {
         return await _noteRepository.GetArchivedNotes();
     }
 
-    public async Task CreateNote(Note note)
+    public async Task CreateNote(NoteRecord noteRecord)
     {
-        if (note == null) throw new ArgumentNullException(nameof(note));
+        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
 
-        note.CreatedOn = _timeProvider.GetUtcNow().DateTime;
-        note.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
-        await _noteRepository.Add(note);
+        noteRecord.CreatedOn = _timeProvider.GetUtcNow().DateTime;
+        noteRecord.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
+        await _noteRepository.Add(noteRecord);
     }
 
-    public async Task<Note> UpdateNote(Note note)
+    public async Task<NoteRecord> UpdateNote(NoteRecord noteRecord)
     {
-        if (note == null) throw new ArgumentNullException(nameof(note));
+        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
 
-        note.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
-        await _noteRepository.Update(note);
+        noteRecord.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
+        await _noteRepository.Update(noteRecord);
 
-        return note;
+        return noteRecord;
     }
 
     public async Task ArchiveNote(Guid noteId)

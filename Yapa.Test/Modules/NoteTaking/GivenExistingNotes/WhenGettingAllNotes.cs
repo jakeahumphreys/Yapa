@@ -12,7 +12,7 @@ public sealed class WhenGettingAllNotes
 {
     private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
-    private IList<Note> _result;
+    private IList<NoteRecord> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
@@ -20,10 +20,10 @@ public sealed class WhenGettingAllNotes
         _noteRepository = new FakeNoteRepository();
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
         
-       await _noteRepository.Add(new Note
+       await _noteRepository.Add(new NoteRecord
        {
             Id = Guid.Parse("7e93eba1-8c6b-4534-bbcc-227462a6d3df"),
-            Collection = null,
+            CollectionRecord = null,
             Content = "Test Content",
             Title = "Note 1",
             IsArchived = false,
@@ -31,10 +31,10 @@ public sealed class WhenGettingAllNotes
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
        });
 
-        await _noteRepository.Add(new Note
+        await _noteRepository.Add(new NoteRecord
         {
             Id = Guid.Parse("15b1f591-bf92-4a8f-bbce-0f336d5b2492"),
-            Collection = null,
+            CollectionRecord = null,
             Content = "Test Content",
             Title = "Note 2",
             IsArchived = false,
@@ -63,7 +63,7 @@ public sealed class WhenGettingAllNotes
         Assert.That(note.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
         Assert.That(note.IsArchived, Is.False);
         Assert.That(note.Id, Is.EqualTo(Guid.Parse("7e93eba1-8c6b-4534-bbcc-227462a6d3df")));
-        Assert.That(note.Collection, Is.Null);
+        Assert.That(note.CollectionRecord, Is.Null);
     }
     
     [Test]
@@ -77,6 +77,6 @@ public sealed class WhenGettingAllNotes
         Assert.That(note.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
         Assert.That(note.IsArchived, Is.False);
         Assert.That(note.Id, Is.EqualTo(Guid.Parse("15b1f591-bf92-4a8f-bbce-0f336d5b2492")));
-        Assert.That(note.Collection, Is.Null);
+        Assert.That(note.CollectionRecord, Is.Null);
     }
 }

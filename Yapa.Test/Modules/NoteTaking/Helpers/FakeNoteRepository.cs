@@ -5,41 +5,41 @@ namespace Yapa.Test.Modules.NoteTaking.Helpers;
 
 public sealed class FakeNoteRepository : INoteRepository
 {
-    private List<Note> _notes = new List<Note>();
+    private List<NoteRecord> _notes = new List<NoteRecord>();
     
-    public async Task<Note> GetById(Guid id)
+    public async Task<NoteRecord> GetById(Guid id)
     {
         return _notes.SingleOrDefault(n => n.Id == id);
     }
 
-    public async Task<IList<Note>> GetAll()
+    public async Task<IList<NoteRecord>> GetAll()
     {
         return _notes;
     }
 
-    public async Task<IList<Note>> GetByCollection(Guid collectionId)
+    public async Task<IList<NoteRecord>> GetByCollection(Guid collectionId)
     {
-        return _notes.Where(x => x.Collection.Id == collectionId).ToList();
+        return _notes.Where(x => x.CollectionRecord.Id == collectionId).ToList();
     }
 
-    public async Task Add(Note note)
+    public async Task Add(NoteRecord noteRecord)
     {
-        _notes.Add(note);
+        _notes.Add(noteRecord);
     }
 
-    public async Task Update(Note note)
+    public async Task Update(NoteRecord noteRecord)
     {
-        var noteToUpdate = _notes.SingleOrDefault(n => n.Id == note.Id);
-        noteToUpdate = note;
+        var noteToUpdate = _notes.SingleOrDefault(n => n.Id == noteRecord.Id);
+        noteToUpdate = noteRecord;
     }
 
-    public async Task Archive(Note note)
+    public async Task Archive(NoteRecord noteRecord)
     {
-        var noteToArchive = _notes.SingleOrDefault(n => n.Id == note.Id);
+        var noteToArchive = _notes.SingleOrDefault(n => n.Id == noteRecord.Id);
         noteToArchive.IsArchived = true;
     }
 
-    public async Task<IList<Note>> GetArchivedNotes()
+    public async Task<IList<NoteRecord>> GetArchivedNotes()
     {
         return _notes.Where(x => x.IsArchived).ToList();
     }

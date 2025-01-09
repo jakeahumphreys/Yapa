@@ -13,7 +13,7 @@ public sealed class WhenUpdatingANote
     private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
     private Guid _noteId;
-    private Note _result;
+    private NoteRecord _result;
 
     [OneTimeSetUp]
     public async Task Setup()
@@ -22,10 +22,10 @@ public sealed class WhenUpdatingANote
         _noteId = Guid.Parse("a83d6396-9a27-4ce9-a488-a3cc8c181ab5");
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
-        var note = new Note
+        var note = new NoteRecord
         {
             Id = _noteId,
-            Collection = null,
+            CollectionRecord = null,
             Content = "Test Content",
             Title = "Test Title",
             IsArchived = false,
@@ -52,6 +52,6 @@ public sealed class WhenUpdatingANote
         Assert.That(_result.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
         Assert.That(_result.IsArchived, Is.True);
         Assert.That(_result.Id, Is.EqualTo(_noteId));
-        Assert.That(_result.Collection, Is.Null);
+        Assert.That(_result.CollectionRecord, Is.Null);
     }
 }

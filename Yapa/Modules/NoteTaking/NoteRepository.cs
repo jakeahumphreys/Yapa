@@ -10,13 +10,13 @@ namespace Yapa.Modules.NoteTaking;
 
 public interface INoteRepository
 {
-    Task<Note> GetById(Guid id);
-    Task<IList<Note>> GetAll();
-    Task<IList<Note>> GetByCollection(Guid collectionId);
-    Task Add(Note note);
-    Task Update(Note note);
-    Task Archive(Note note);
-    Task<IList<Note>> GetArchivedNotes();
+    Task<NoteRecord> GetById(Guid id);
+    Task<IList<NoteRecord>> GetAll();
+    Task<IList<NoteRecord>> GetByCollection(Guid collectionId);
+    Task Add(NoteRecord noteRecord);
+    Task Update(NoteRecord noteRecord);
+    Task Archive(NoteRecord noteRecord);
+    Task<IList<NoteRecord>> GetArchivedNotes();
 }
 
 public class NoteRepository : INoteRepository
@@ -28,64 +28,64 @@ public class NoteRepository : INoteRepository
         _sessionFactory = sessionFactory ?? throw new ArgumentNullException(nameof(sessionFactory));
     }
 
-    public async Task<Note> GetById(Guid id)
+    public async Task<NoteRecord> GetById(Guid id)
     {
         using var session = _sessionFactory.OpenSession();
-        return await session.GetAsync<Note>(id);
+        return await session.GetAsync<NoteRecord>(id);
     }
 
-    public async Task<IList<Note>> GetAll()
+    public async Task<IList<NoteRecord>> GetAll()
     {
         using var session = _sessionFactory.OpenSession();
-        return await session.Query<Note>().ToListAsync();
+        return await session.Query<NoteRecord>().ToListAsync();
     }
 
-    public async Task<IList<Note>> GetByCollection(Guid collectionId)
+    public async Task<IList<NoteRecord>> GetByCollection(Guid collectionId)
     {
         using var session = _sessionFactory.OpenSession();
-        return await session.Query<Note>()
-            .Where(note => note.Collection.Id == collectionId)
+        return await session.Query<NoteRecord>()
+            .Where(note => note.CollectionRecord.Id == collectionId)
             .ToListAsync();
     }
 
-    public async Task Add(Note note)
+    public async Task Add(NoteRecord noteRecord)
     {
-        if (note == null) throw new ArgumentNullException(nameof(note));
+        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
 
         using var session = _sessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
-        await session.SaveAsync(note);
+        await session.SaveAsync(noteRecord);
         await transaction.CommitAsync();
     }
 
-    public async Task Update(Note note)
+    public async Task Update(NoteRecord noteRecord)
     {
-        if (note == null) throw new ArgumentNullException(nameof(note));
+        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
 
         using var session = _sessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
-        await session.UpdateAsync(note);
+        await session.UpdateAsync(noteRecord);
         await transaction.CommitAsync();
     }
 
-    public async Task Archive(Note note)
+    public async Task Archive(NoteRecord noteRecord)
     {
-        if (note == null) throw new ArgumentNullException(nameof(note));
+        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
 
         using var session = _sessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
-        note.IsArchived = true; // Mark as archived
-        await session.UpdateAsync(note);
+        noteRecord.IsArchived = true; // Mark as archived
+        await session.UpdateAsync(noteRecord);
         await transaction.CommitAsync();
     }
 
-    public async Task<IList<Note>> GetArchivedNotes()
+    public async Task<IList<NoteRecord>> GetArchivedNotes()
     {
         using var session = _sessionFactory.OpenSession();
-        return await session.Query<Note>()
+        return await session.Query<NoteRecord>()
             .Where(note => note.IsArchived)
             .ToListAsync();
     }

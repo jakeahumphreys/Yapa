@@ -12,7 +12,7 @@ public sealed class WhenGettingById
 {
     private FakeTimeProvider _timeProvider;
     private Guid _noteId;
-    private Note _result;
+    private NoteRecord _result;
     private FakeNoteRepository _noteRepository;
 
     [OneTimeSetUp]
@@ -23,10 +23,10 @@ public sealed class WhenGettingById
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
 
-        await _noteRepository.Add(new Note
+        await _noteRepository.Add(new NoteRecord
         {
             Id = _noteId,
-            Collection = null,
+            CollectionRecord = null,
             Content = "Test Content",
             Title = "Test Title",
             IsArchived = false,
@@ -53,6 +53,6 @@ public sealed class WhenGettingById
         Assert.That(_result.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
         Assert.That(_result.IsArchived, Is.False);
         Assert.That(_result.Id, Is.EqualTo(_noteId));
-        Assert.That(_result.Collection, Is.Null);
+        Assert.That(_result.CollectionRecord, Is.Null);
     }
 }

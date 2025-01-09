@@ -3,10 +3,10 @@ using FluentNHibernate.Mapping;
 
 namespace Yapa.Modules.NoteTaking.Types;
 
-public class Note
+public class NoteRecord
 {
     public virtual Guid Id { get; set; }
-    public virtual Collection Collection { get; set; }
+    public virtual CollectionRecord CollectionRecord { get; set; }
     public virtual string Title { get; set; }
     public virtual string Content { get; set; }
     public virtual DateTime CreatedOn { get; set; }
@@ -14,7 +14,7 @@ public class Note
     public virtual bool IsArchived { get; set; }
 }
 
-public class NoteMap : ClassMap<Note>
+public class NoteMap : ClassMap<NoteRecord>
 {
     public NoteMap()
     {
@@ -27,7 +27,7 @@ public class NoteMap : ClassMap<Note>
         Map(x => x.ModifiedOn).Not.Nullable();
         Map(x => x.IsArchived).Not.Nullable();
 
-        References(x => x.Collection)
+        References(x => x.CollectionRecord)
             .Column("CollectionId")
             .LazyLoad();
     }
