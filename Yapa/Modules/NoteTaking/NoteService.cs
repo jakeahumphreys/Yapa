@@ -12,7 +12,7 @@ public interface INoteService
     Task<IList<Note>> GetNotesByCollection(Guid collectionId);
     Task<IList<Note>> GetArchivedNotes();
     Task CreateNote(Note note);
-    Task UpdateNote(Note note);
+    Task<Note> UpdateNote(Note note);
     Task ArchiveNote(Guid noteId);
 }
 
@@ -56,12 +56,14 @@ public class NoteService : INoteService
         await _noteRepository.Add(note);
     }
 
-    public async Task UpdateNote(Note note)
+    public async Task<Note> UpdateNote(Note note)
     {
         if (note == null) throw new ArgumentNullException(nameof(note));
 
-        note.ModifiedOn = DateTime.UtcNow;
+        note.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
         await _noteRepository.Update(note);
+
+        return note;
     }
 
     public async Task ArchiveNote(Guid noteId)
