@@ -33,6 +33,7 @@ namespace Yapa
                 .AddMudServices()
                 .AddSingleton(sessionFactory)
                 .AddSingleton<INoteRepository, NoteRepository>()
+                .AddSingleton<ICollectionRepository, CollectionRepository>()
                 .AddSingleton<INoteService, NoteService>()
                 .AddSingleton(TimeProvider.System);
 

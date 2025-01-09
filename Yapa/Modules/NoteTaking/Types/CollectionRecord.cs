@@ -6,15 +6,15 @@ using NHibernate.Mapping;
 
 namespace Yapa.Modules.NoteTaking.Types;
 
-public class Collection
+public class CollectionRecord
 {
     public virtual Guid Id { get; set; }
     public virtual string Name { get; set; }
-    public virtual List<Note> Notes { get; set; } = [];
+    public virtual List<NoteRecord> Notes { get; set; } = [];
     public virtual bool IsArchived { get; set; }
 }
 
-public class CollectionMap : ClassMap<Collection>
+public class CollectionMap : ClassMap<CollectionRecord>
 {
     public CollectionMap()
     {
