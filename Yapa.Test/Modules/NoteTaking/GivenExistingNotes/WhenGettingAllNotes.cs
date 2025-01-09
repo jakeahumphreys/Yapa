@@ -9,42 +9,39 @@ namespace Yapa.Test.Modules.NoteTaking.GivenExistingNotes;
 [Parallelizable]
 public sealed class WhenGettingAllNotes
 {
-    private Mock<INoteRepository> _noteRepository;
+    private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
     private IList<Note> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
     {
-        _noteRepository = new Mock<INoteRepository>();
+        _noteRepository = new FakeNoteRepository();
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
-
-
-        _noteRepository.Setup(x => x.GetAll()).ReturnsAsync(new List<Note>
+        
+        _noteRepository.Add(new Note
         {
-            new Note
-            {
-                Id = Guid.Parse("7e93eba1-8c6b-4534-bbcc-227462a6d3df"),
-                Collection = null,
-                Content = "Test Content",
-                Title = "Note 1",
-                IsArchived = false,
-                ModifiedOn = _timeProvider.GetUtcNow().DateTime,
-                CreatedOn = _timeProvider.GetUtcNow().DateTime,
-            },
-            new Note
-            {
-                Id = Guid.Parse("15b1f591-bf92-4a8f-bbce-0f336d5b2492"),
-                Collection = null,
-                Content = "Test Content",
-                Title = "Note 2",
-                IsArchived = false,
-                ModifiedOn = _timeProvider.GetUtcNow().DateTime,
-                CreatedOn = _timeProvider.GetUtcNow().DateTime,
-            }
+            Id = Guid.Parse("7e93eba1-8c6b-4534-bbcc-227462a6d3df"),
+            Collection = null,
+            Content = "Test Content",
+            Title = "Note 1",
+            IsArchived = false,
+            ModifiedOn = _timeProvider.GetUtcNow().DateTime,
+            CreatedOn = _timeProvider.GetUtcNow().DateTime,
+        });
+
+        _noteRepository.Add(new Note
+        {
+            Id = Guid.Parse("15b1f591-bf92-4a8f-bbce-0f336d5b2492"),
+            Collection = null,
+            Content = "Test Content",
+            Title = "Note 2",
+            IsArchived = false,
+            ModifiedOn = _timeProvider.GetUtcNow().DateTime,
+            CreatedOn = _timeProvider.GetUtcNow().DateTime,
         });
         
-        var subject = new NoteService(_noteRepository.Object, _timeProvider);
+        var subject = new NoteService(_noteRepository, _timeProvider);
         _result = await subject.GetAllNotes();
     }
     

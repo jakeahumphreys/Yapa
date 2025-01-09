@@ -9,35 +9,40 @@ namespace Yapa.Test.Modules.NoteTaking;
 [Parallelizable]
 public sealed class GivenANoteToAdd
 {
-    private Mock<INoteRepository> _noteRepository;
     private FakeTimeProvider _timeProvider;
+    private FakeNoteRepository _noteRepository;
+    private Note _result;
 
     [OneTimeSetUp]
     public async Task Setup()
     {
-        _noteRepository = new Mock<INoteRepository>();
+        _noteRepository = new FakeNoteRepository();
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
-        var subject = new NoteService(_noteRepository.Object, _timeProvider);
+        var subject = new NoteService(_noteRepository, _timeProvider);
 
+        var noteId = Guid.Parse("60d0c577-95aa-4255-b652-a40b3c686716");
         await subject.CreateNote(new Note
         {
-            Id = Guid.Parse("60d0c577-95aa-4255-b652-a40b3c686716"),
+            Id = noteId,
             Collection = null,
             Content = "Test Content",
             Title = "Test Note",
             IsArchived = false,
         });
+        
+        _result = await subject.GetNoteById(noteId);
     }
     
     [Test]
-    public void ThenTheRepositoryIsCalled()
+    public void ThenTheNoteIsAddedToTheRepository()
     {
-        _noteRepository.Verify(x => x.Add(It.Is<Note>(y => y.Id == Guid.Parse("60d0c577-95aa-4255-b652-a40b3c686716") && 
-                                                           y.Collection == null &&
-                                                           y.CreatedOn == _timeProvider.GetUtcNow() &&
-                                                           y.Content == "Test Content" &&
-                                                           y.Title == "Test Note" &&
-                                                           y.IsArchived == false &&
-                                                           y.ModifiedOn == _timeProvider.GetUtcNow())), Times.Once);
+     
+        Assert.That(_result.Content, Is.EqualTo("Test Content"));
+        Assert.That(_result.Title, Is.EqualTo("Test Note"));
+        Assert.That(_result.CreatedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
+        Assert.That(_result.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
+        Assert.That(_result.IsArchived, Is.False);
+        Assert.That(_result.Id, Is.EqualTo(Guid.Parse("60d0c577-95aa-4255-b652-a40b3c686716")));
+        Assert.That(_result.Collection, Is.Null);
     }
 }

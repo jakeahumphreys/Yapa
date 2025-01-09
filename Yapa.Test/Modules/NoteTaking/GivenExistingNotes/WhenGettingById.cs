@@ -9,19 +9,20 @@ namespace Yapa.Test.Modules.NoteTaking.GivenExistingNotes;
 [Parallelizable]
 public sealed class WhenGettingById
 {
-    private Mock<INoteRepository> _noteRepository;
     private FakeTimeProvider _timeProvider;
     private Guid _noteId;
     private Note _result;
+    private FakeNoteRepository _noteRepository;
 
     [OneTimeSetUp]
     public async Task Setup()
     {
-        _noteRepository = new Mock<INoteRepository>();
+        _noteRepository = new FakeNoteRepository();
         _noteId = Guid.Parse("a83d6396-9a27-4ce9-a488-a3cc8c181ab5");
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
-        _noteRepository.Setup(x => x.GetById(It.Is<Guid>(y => y == _noteId))).ReturnsAsync(new Note
+
+        _noteRepository.Add(new Note
         {
             Id = _noteId,
             Collection = null,
@@ -32,7 +33,7 @@ public sealed class WhenGettingById
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
         });
         
-        var subject = new NoteService(_noteRepository.Object, _timeProvider);
+        var subject = new NoteService(_noteRepository, _timeProvider);
         _result = await subject.GetNoteById(_noteId);
     }
     
