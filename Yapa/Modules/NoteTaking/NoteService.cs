@@ -49,20 +49,21 @@ public class NoteService
 
     public async Task CreateNote(NoteRecord noteRecord)
     {
-        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
-
         noteRecord.CreatedOn = _timeProvider.GetUtcNow().DateTime;
         noteRecord.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
         await _noteRepository.Add(noteRecord);
     }
 
-    public async Task<NoteRecord> UpdateNote(NoteRecord noteRecord)
+    public async Task<Result<NoteRecord>> UpdateNote(NoteRecord noteRecord)
     {
-        if (noteRecord == null) throw new ArgumentNullException(nameof(noteRecord));
-
+        var existingNote = await _noteRepository.GetById(noteRecord.Id);
+        
+        if(existingNote == null)
+            return Result<NoteRecord>.Failure($"A note with id {noteRecord.Id} was not found");
+        
         noteRecord.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
-        await _noteRepository.Update(noteRecord);
+        var updatedNote = await _noteRepository.Update(noteRecord);
 
-        return noteRecord;
+        return Result<NoteRecord>.Success(updatedNote);
     }
 }
