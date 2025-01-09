@@ -27,9 +27,14 @@ public class NoteService
         return Result<NoteRecord>.Success(noteById);
     }
 
-    public async Task<IList<NoteRecord>> GetAllNotes()
+    public async Task<Result<IList<NoteRecord>>> GetAllNotes()
     {
-        return await _noteRepository.GetAll();
+        var allNotes = await _noteRepository.GetAll();
+        
+        if(allNotes.Count == 0)
+            return Result<IList<NoteRecord>>.Failure($"No notes found");
+        
+        return Result<IList<NoteRecord>>.Success(allNotes);
     }
 
     public async Task<IList<NoteRecord>> GetNotesByCollection(Guid collectionId)
