@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
 using Yapa.Features.NoteTaking.Types;
@@ -24,7 +25,8 @@ public sealed class CollectionRepository : ICollectionRepository
     public async Task<List<CollectionRecord>> GetAll()
     {
         using var session = _sessionFactory.OpenSession();
-        return await session.Query<CollectionRecord>().ToListAsync();
+        var result = await session.QueryOver<CollectionRecord>().ListAsync();
+        return result.ToList();
     }
 
     public async Task<CollectionRecord> Add(CollectionRecord record)
