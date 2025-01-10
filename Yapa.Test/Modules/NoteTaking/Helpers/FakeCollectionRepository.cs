@@ -1,5 +1,4 @@
-﻿using NHibernate.Mapping;
-using Yapa.Modules.NoteTaking;
+﻿using Yapa.Modules.NoteTaking;
 using Yapa.Modules.NoteTaking.Types;
 
 namespace Yapa.Test.Modules.NoteTaking.Helpers;
