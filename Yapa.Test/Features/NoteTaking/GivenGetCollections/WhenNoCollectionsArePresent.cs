@@ -1,9 +1,9 @@
 ﻿using Yapa.Common.Types;
-using Yapa.Modules.NoteTaking;
-using Yapa.Modules.NoteTaking.Types;
-using Yapa.Test.Modules.NoteTaking.Helpers;
+using Yapa.Features.NoteTaking;
+using Yapa.Features.NoteTaking.Types;
+using Yapa.Test.Features.NoteTaking.Helpers;
 
-namespace Yapa.Test.Modules.NoteTaking.GivenGetCollections;
+namespace Yapa.Test.Features.NoteTaking.GivenGetCollections;
 
 [TestFixture]
 [Parallelizable]

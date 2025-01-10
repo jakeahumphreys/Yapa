@@ -1,7 +1,7 @@
-﻿using Yapa.Modules.NoteTaking;
-using Yapa.Modules.NoteTaking.Types;
+﻿using Yapa.Features.NoteTaking;
+using Yapa.Features.NoteTaking.Types;
 
-namespace Yapa.Test.Modules.NoteTaking.Helpers;
+namespace Yapa.Test.Features.NoteTaking.Helpers;
 
 public sealed class FakeNoteRepository : INoteRepository
 {

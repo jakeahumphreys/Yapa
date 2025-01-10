@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Yapa.Common.Types;
-using Yapa.Modules.NoteTaking.Types;
+using Yapa.Features.NoteTaking.Types;
 
-namespace Yapa.Modules.NoteTaking;
+namespace Yapa.Features.NoteTaking;
 
 public sealed class CollectionService
 {

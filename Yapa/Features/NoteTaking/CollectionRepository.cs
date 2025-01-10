@@ -2,9 +2,9 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using NHibernate;
-using Yapa.Modules.NoteTaking.Types;
+using Yapa.Features.NoteTaking.Types;
 
-namespace Yapa.Modules.NoteTaking;
+namespace Yapa.Features.NoteTaking;
 
 public interface ICollectionRepository
 {

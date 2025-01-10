@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentNHibernate.Mapping;
 
-namespace Yapa.Modules.NoteTaking.Types;
+namespace Yapa.Features.NoteTaking.Types;
 
 public class NoteRecord
 {

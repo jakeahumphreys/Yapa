@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using Photino.Blazor;
 using Yapa.Data;
-using Yapa.Modules.NoteTaking;
+using Yapa.Features.NoteTaking;
 
 namespace Yapa
 {

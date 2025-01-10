@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using FluentNHibernate.Mapping;
-using NHibernate.Mapping;
 
-namespace Yapa.Modules.NoteTaking.Types;
+namespace Yapa.Features.NoteTaking.Types;
 
 public class CollectionRecord
 {
