@@ -35,6 +35,7 @@ namespace Yapa
                 .AddSingleton<INoteRepository, NoteRepository>()
                 .AddSingleton<ICollectionRepository, CollectionRepository>()
                 .AddSingleton<NoteService>()
+                .AddSingleton<CollectionService>()
                 .AddSingleton(TimeProvider.System);
 
             // register root component and selector
