@@ -32,15 +32,14 @@ public partial class Index : ComponentBase
         dialog.Result.ContinueWith(OnDialogClose);
     }
 
-    private void OnDialogClose(Task<DialogResult> task)
+    private async Task OnDialogClose(Task<DialogResult> task)
     {
         if (task.Result?.Data != null && (bool)task.Result.Data)
         {
-            // Handle Confirm (True)
-        }
-        else
-        {
-            // Handle Cancel (False)
+            var storedCollections = await CollectionService.GetAll();
+            Collections = storedCollections.Content;
+            
+            StateHasChanged();
         }
     }
 }

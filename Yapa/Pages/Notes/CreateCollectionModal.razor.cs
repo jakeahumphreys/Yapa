@@ -28,6 +28,6 @@ public partial class CreateCollectionModal : ComponentBase
     private void CloseDialog(bool result)
     {
         OnDialogClose.InvokeAsync(result);
-        MudDialog.Close();
+        MudDialog.Close(DialogResult.Ok(result));
     }
 }
