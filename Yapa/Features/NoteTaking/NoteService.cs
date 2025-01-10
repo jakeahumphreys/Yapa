@@ -44,11 +44,13 @@ public class NoteService
         return await _noteRepository.GetArchivedNotes();
     }
 
-    public async Task CreateNote(NoteDto noteDto)
+    public async Task<NoteDto> CreateNote(NoteDto noteDto)
     {
+        noteDto.Id = Guid.NewGuid();
         noteDto.CreatedOn = _timeProvider.GetUtcNow().DateTime;
         noteDto.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
         await _noteRepository.Add(noteDto);
+        return noteDto;
     }
 
     public async Task<Result<NoteDto>> UpdateNote(NoteDto noteDto)

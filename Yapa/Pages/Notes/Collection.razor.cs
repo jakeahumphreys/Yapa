@@ -11,6 +11,7 @@ public partial class Collection : ComponentBase
 {
     [Parameter] public string CollectionId { get; set; } 
     [Inject] NoteService NoteService { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; }
     
     private List<NoteDto> Notes { get; set; }
 
@@ -20,5 +21,11 @@ public partial class Collection : ComponentBase
         Notes = noteResults;
         
         await base.OnInitializedAsync();
+    }
+
+
+    private void CreateNoteNote(string collectionId)
+    {
+        NavigationManager.NavigateTo($"/Note/EditNote/{collectionId}/new");
     }
 }

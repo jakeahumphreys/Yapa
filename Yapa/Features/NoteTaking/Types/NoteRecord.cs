@@ -31,7 +31,7 @@ public class NoteMap : ClassMap<NoteRecord>
     {
         Table("Notes");
         
-        Id(x => x.Id).GeneratedBy.GuidComb();
+        Id(x => x.Id).GeneratedBy.Assigned();
         Map(x => x.Title).Not.Nullable();
         Map(x => x.Content).Not.Nullable();
         Map(x => x.CreatedOn).Not.Nullable();

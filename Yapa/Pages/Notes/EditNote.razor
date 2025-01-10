@@ -1,0 +1,16 @@
+﻿@page "/Note/EditNote/{CollectionId}/{NoteId}"
+<h3>EditNote</h3>
+
+<EditForm Model="@note">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="content">Note Content</label>
+        <textarea id="content" class="form-control" @bind="note.Content" @oninput="OnInputChanged"></textarea>
+    </div>
+</EditForm>
+
+@code {
+    
+}

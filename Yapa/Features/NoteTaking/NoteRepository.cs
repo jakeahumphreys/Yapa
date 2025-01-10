@@ -86,7 +86,7 @@ public class NoteRepository : INoteRepository
 
         var record = new NoteRecord
         {
-            Id = Guid.NewGuid(),
+            Id = note.Id,
             Title = note.Title,
             Content = note.Content,
             IsArchived = note.IsArchived,
