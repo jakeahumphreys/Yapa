@@ -8,8 +8,16 @@ public class CollectionRecord
 {
     public virtual Guid Id { get; set; }
     public virtual string Name { get; set; }
-    public virtual List<NoteRecord> Notes { get; set; } = [];
+    public virtual IList<NoteRecord> Notes { get; set; }
     public virtual bool IsArchived { get; set; }
+}
+
+public class CollectionDto
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public bool IsArchived { get; set; }
+    public List<NoteDto> Notes { get; set; } = new List<NoteDto>();
 }
 
 public class CollectionMap : ClassMap<CollectionRecord>

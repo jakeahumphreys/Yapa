@@ -15,25 +15,25 @@ public sealed class CollectionService
         _collectionRepository = collectionRepository;
     }
 
-    public async Task<Result<List<CollectionRecord>>> GetAll()
+    public async Task<Result<List<CollectionDto>>> GetAll()
     {
         var collectionRecords = await _collectionRepository.GetAll();
         
-        return Result<List<CollectionRecord>>.Success(collectionRecords);
+        return Result<List<CollectionDto>>.Success(collectionRecords);
     }
 
-    public async Task<Result<CollectionRecord>>AddCollection(string collectionName)
+    public async Task<Result<CollectionDto>>AddCollection(string collectionName)
     {
         if(string.IsNullOrWhiteSpace(collectionName))
-            return Result<CollectionRecord>.Failure("Collection name cannot be empty");
+            return Result<CollectionDto>.Failure("Collection name cannot be empty");
             
-        var collectionRecord = new CollectionRecord
+        var collectionRecord = new CollectionDto()
         {
             Id = Guid.NewGuid(),
             Name = collectionName,
-            IsArchived = false
+            IsArchived = false,
         };
         await _collectionRepository.Add(collectionRecord);
-        return Result<CollectionRecord>.Success(collectionRecord);
+        return Result<CollectionDto>.Success(collectionRecord);
     }
 }

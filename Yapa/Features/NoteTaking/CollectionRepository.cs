@@ -8,8 +8,8 @@ namespace Yapa.Features.NoteTaking;
 
 public interface ICollectionRepository
 {
-    public Task<List<CollectionRecord>> GetAll();
-    public Task<CollectionRecord> Add(CollectionRecord record);
+    public Task<List<CollectionDto>> GetAll();
+    public Task<CollectionDto> Add(CollectionDto collection);
 }
 
 public sealed class CollectionRepository : ICollectionRepository
@@ -21,20 +21,49 @@ public sealed class CollectionRepository : ICollectionRepository
         _sessionFactory = sessionFactory;
     }
 
-    public async Task<List<CollectionRecord>> GetAll()
+    public async Task<List<CollectionDto>> GetAll()
     {
         using var session = _sessionFactory.OpenSession();
         var result = await session.QueryOver<CollectionRecord>().ListAsync();
-        return result.ToList();
+
+        var dtoResult = result.Select(x => new CollectionDto
+        {
+            Id = x.Id,
+            Name = x.Name,
+            IsArchived = x.IsArchived,
+            Notes = x.Notes?.Select(y => new NoteDto
+            {
+                Id = y.Id,
+                Content = y.Content
+            }).ToList() ?? new List<NoteDto>(),
+        }).ToList();
+        
+        return dtoResult;
     }
 
-    public async Task<CollectionRecord> Add(CollectionRecord record)
+    public async Task<CollectionDto> Add(CollectionDto collection)
     {
         using var session = _sessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
+        var record = new CollectionRecord
+        {
+            Id = collection.Id,
+            Name = collection.Name,
+            IsArchived = collection.IsArchived,
+            Notes = collection.Notes.Select(x => new NoteRecord
+            {
+                Id = x.Id,
+                Content = x.Content,
+                IsArchived = x.IsArchived,
+                Title = x.Title,
+                CreatedOn = x.CreatedOn,
+                ModifiedOn = x.ModifiedOn
+            }).ToList()
+        };
+
         await session.SaveAsync(record);
         await transaction.CommitAsync();
-        return record;
+        return collection;
     }
 }

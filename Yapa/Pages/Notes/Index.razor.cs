@@ -15,7 +15,7 @@ public partial class Index : ComponentBase
     [Inject]
     public IDialogService DialogService { get; set; }
     
-    private List<CollectionRecord> Collections { get; set; }
+    private List<CollectionDto> Collections { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

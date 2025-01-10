@@ -14,6 +14,16 @@ public class NoteRecord
     public virtual bool IsArchived { get; set; }
 }
 
+public class NoteDto
+{
+    public Guid Id { get; set; }
+    public virtual string Title { get; set; }
+    public virtual string Content { get; set; }
+    public virtual DateTime CreatedOn { get; set; }
+    public virtual DateTime ModifiedOn { get; set; }
+    public virtual bool IsArchived { get; set; }
+}
+
 public class NoteMap : ClassMap<NoteRecord>
 {
     public NoteMap()

@@ -5,14 +5,14 @@ namespace Yapa.Test.Features.NoteTaking.Helpers;
 
 public sealed class FakeCollectionRepository : ICollectionRepository
 {
-    private List<CollectionRecord> _collections = new List<CollectionRecord>();
+    private List<CollectionDto> _collections = new List<CollectionDto>();
     
-    public async Task<List<CollectionRecord>> GetAll()
+    public async Task<List<CollectionDto>> GetAll()
     {
         return await Task.FromResult(_collections);
     }
 
-    public async Task<CollectionRecord> Add(CollectionRecord record)
+    public async Task<CollectionDto> Add(CollectionDto record)
     {
         _collections.Add(record);
         return await Task.FromResult(record);

@@ -9,7 +9,7 @@ namespace Yapa.Test.Features.NoteTaking.GivenGetCollections;
 [Parallelizable]
 public sealed class WhenNoCollectionsArePresent
 {
-    private Result<List<CollectionRecord>> _result;
+    private Result<List<CollectionDto>> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
