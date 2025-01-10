@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Time.Testing;
-using Yapa.Common.Types;
+﻿using Yapa.Common.Types;
 using Yapa.Modules.NoteTaking;
 using Yapa.Modules.NoteTaking.Types;
 using Yapa.Test.Modules.NoteTaking.Helpers;
