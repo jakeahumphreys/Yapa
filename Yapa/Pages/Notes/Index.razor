@@ -1,7 +1,32 @@
 ﻿@page "/Notes/"
 
-<MudContainer>
-    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Label="Add Collection" OnClick="OpenCreateCollectionModal" Style="position: fixed; bottom: 16px; right: 16px; z-index: 1000;"/>
-    You have @Collections.Count collections :)
-</MudContainer>
+You have @Collections.Count collections :)
+
+
+@if (Collections.Count > 0)
+{
+    foreach (var collection in Collections)
+    {
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">@collection.Name</MudText>
+                    <MudText Typo="Typo.caption">@collection.Id.ToString()</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudIconButton Icon="@Icons.Material.Filled.Archive" Color="Color.Default" />
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText>@collection.Notes.Count Notes</MudText>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">View Notes</MudButton>
+            </MudCardActions>
+        </MudCard>
+    }
+}
+
+<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Label="Add Collection" OnClick="OpenCreateCollectionModal" Style="position: fixed; bottom: 16px; right: 16px; z-index: 1000;"/>
+
 
