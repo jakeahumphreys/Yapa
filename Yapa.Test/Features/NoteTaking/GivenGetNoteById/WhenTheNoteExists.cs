@@ -13,7 +13,7 @@ public sealed class WhenTheNoteExists
     private FakeTimeProvider _timeProvider;
     private Guid _noteId;
     private FakeNoteRepository _noteRepository;
-    private Result<NoteRecord> _result;
+    private Result<NoteDto> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
@@ -23,10 +23,9 @@ public sealed class WhenTheNoteExists
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
 
-        await _noteRepository.Add(new NoteRecord
+        await _noteRepository.Add(new NoteDto
         {
             Id = _noteId,
-            CollectionRecord = null,
             Content = "Test Content",
             Title = "Test Title",
             IsArchived = false,
@@ -53,6 +52,5 @@ public sealed class WhenTheNoteExists
         Assert.That(_result.Content.ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
         Assert.That(_result.Content.IsArchived, Is.False);
         Assert.That(_result.Content.Id, Is.EqualTo(_noteId));
-        Assert.That(_result.Content.CollectionRecord, Is.Null);
     }
 }

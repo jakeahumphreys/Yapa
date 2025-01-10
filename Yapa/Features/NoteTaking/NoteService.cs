@@ -13,54 +13,54 @@ public class NoteService
 
     public NoteService(INoteRepository noteRepository, TimeProvider timeProvider)
     {
-        _noteRepository = noteRepository ?? throw new ArgumentNullException(nameof(noteRepository));
+        _noteRepository = noteRepository;
         _timeProvider = timeProvider;
     }
 
-    public async Task<Result<NoteRecord>> GetNoteById(Guid id)
+    public async Task<Result<NoteDto>> GetNoteById(Guid id)
     {
         var noteById = await _noteRepository.GetById(id);
         
         if(noteById == null)
-            return Result<NoteRecord>.Failure($"A note with id {id} was not found");
+            return Result<NoteDto>.Failure($"A note with id {id} was not found");
         
-        return Result<NoteRecord>.Success(noteById);
+        return Result<NoteDto>.Success(noteById);
     }
 
-    public async Task<Result<IList<NoteRecord>>> GetAllNotes()
+    public async Task<Result<List<NoteDto>>> GetAllNotes()
     {
         var allNotes = await _noteRepository.GetAll();
         
-        return Result<IList<NoteRecord>>.Success(allNotes);
+        return Result<List<NoteDto>>.Success(allNotes);
     }
 
-    public async Task<IList<NoteRecord>> GetNotesByCollection(Guid collectionId)
+    public async Task<List<NoteDto>> GetNotesForCollection(Guid collectionId)
     {
-        return await _noteRepository.GetByCollection(collectionId);
+        return await _noteRepository.GetNotesForCollection(collectionId);
     }
 
-    public async Task<IList<NoteRecord>> GetArchivedNotes()
+    public async Task<List<NoteDto>> GetArchivedNotes()
     {
         return await _noteRepository.GetArchivedNotes();
     }
 
-    public async Task CreateNote(NoteRecord noteRecord)
+    public async Task CreateNote(NoteDto noteDto)
     {
-        noteRecord.CreatedOn = _timeProvider.GetUtcNow().DateTime;
-        noteRecord.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
-        await _noteRepository.Add(noteRecord);
+        noteDto.CreatedOn = _timeProvider.GetUtcNow().DateTime;
+        noteDto.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
+        await _noteRepository.Add(noteDto);
     }
 
-    public async Task<Result<NoteRecord>> UpdateNote(NoteRecord noteRecord)
+    public async Task<Result<NoteDto>> UpdateNote(NoteDto noteDto)
     {
-        var existingNote = await _noteRepository.GetById(noteRecord.Id);
+        var existingNote = await _noteRepository.GetById(noteDto.Id);
         
         if(existingNote == null)
-            return Result<NoteRecord>.Failure($"A note with id {noteRecord.Id} was not found");
+            return Result<NoteDto>.Failure($"A note with id {noteDto.Id} was not found");
         
-        noteRecord.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
-        var updatedNote = await _noteRepository.Update(noteRecord);
+        noteDto.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
+        var updatedNote = await _noteRepository.Update(noteDto);
 
-        return Result<NoteRecord>.Success(updatedNote);
+        return Result<NoteDto>.Success(noteDto);
     }
 }

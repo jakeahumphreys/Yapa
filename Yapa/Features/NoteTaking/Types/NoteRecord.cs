@@ -17,6 +17,7 @@ public class NoteRecord
 public class NoteDto
 {
     public Guid Id { get; set; }
+    public virtual Guid CollectionRecordId { get; set; }
     public virtual string Title { get; set; }
     public virtual string Content { get; set; }
     public virtual DateTime CreatedOn { get; set; }

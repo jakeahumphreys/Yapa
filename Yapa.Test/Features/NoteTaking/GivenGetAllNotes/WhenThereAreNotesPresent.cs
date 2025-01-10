@@ -12,7 +12,7 @@ public sealed class WhenThereAreNotesPresent
 {
     private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
-    private Result<IList<NoteRecord>> _result;
+    private Result<List<NoteDto>> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
@@ -20,10 +20,9 @@ public sealed class WhenThereAreNotesPresent
         _noteRepository = new FakeNoteRepository();
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
         
-       await _noteRepository.Add(new NoteRecord
+       await _noteRepository.Add(new NoteDto
        {
             Id = Guid.Parse("7e93eba1-8c6b-4534-bbcc-227462a6d3df"),
-            CollectionRecord = null,
             Content = "Test Content",
             Title = "Note 1",
             IsArchived = false,
@@ -31,10 +30,9 @@ public sealed class WhenThereAreNotesPresent
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
        });
 
-        await _noteRepository.Add(new NoteRecord
+        await _noteRepository.Add(new NoteDto
         {
             Id = Guid.Parse("15b1f591-bf92-4a8f-bbce-0f336d5b2492"),
-            CollectionRecord = null,
             Content = "Test Content",
             Title = "Note 2",
             IsArchived = true,
@@ -59,7 +57,6 @@ public sealed class WhenThereAreNotesPresent
             Assert.That(_result.Content.First().ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
             Assert.That(_result.Content.First().IsArchived, Is.False);
             Assert.That(_result.Content.First().Id, Is.EqualTo(Guid.Parse("7e93eba1-8c6b-4534-bbcc-227462a6d3df")));
-            Assert.That(_result.Content.First().CollectionRecord, Is.Null);
             
             Assert.That(_result.Content.Last().Content, Is.EqualTo("Test Content"));
             Assert.That(_result.Content.Last().Title, Is.EqualTo("Note 2"));
@@ -67,8 +64,6 @@ public sealed class WhenThereAreNotesPresent
             Assert.That(_result.Content.Last().ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
             Assert.That(_result.Content.Last().IsArchived, Is.True);
             Assert.That(_result.Content.Last().Id, Is.EqualTo(Guid.Parse("15b1f591-bf92-4a8f-bbce-0f336d5b2492")));
-            Assert.That(_result.Content.Last().CollectionRecord, Is.Null);
-            
         }));
       
     }

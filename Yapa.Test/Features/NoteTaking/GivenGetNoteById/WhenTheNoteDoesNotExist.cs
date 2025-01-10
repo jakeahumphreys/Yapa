@@ -13,7 +13,7 @@ public sealed class WhenTheNoteDoesNotExist
     private FakeTimeProvider _timeProvider;
     private Guid _noteId;
     private FakeNoteRepository _noteRepository;
-    private Result<NoteRecord> _result;
+    private Result<NoteDto> _result;
 
     [OneTimeSetUp]
     public async Task Setup()

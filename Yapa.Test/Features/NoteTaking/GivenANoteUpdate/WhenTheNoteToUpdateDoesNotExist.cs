@@ -13,7 +13,7 @@ public sealed class WhenTheNoteToUpdateDoesNotExist
     private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
     private Guid _noteId;
-    private Result<NoteRecord> _result;
+    private Result<NoteDto> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
@@ -22,10 +22,9 @@ public sealed class WhenTheNoteToUpdateDoesNotExist
         _noteId = Guid.Parse("a83d6396-9a27-4ce9-a488-a3cc8c181ab5");
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
-        var note = new NoteRecord
+        var note = new NoteDto
         {
             Id = _noteId,
-            CollectionRecord = null,
             Content = "Test Content",
             Title = "Updated Note",
             IsArchived = true,

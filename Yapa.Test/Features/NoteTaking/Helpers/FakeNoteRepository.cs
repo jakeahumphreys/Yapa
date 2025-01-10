@@ -5,36 +5,36 @@ namespace Yapa.Test.Features.NoteTaking.Helpers;
 
 public sealed class FakeNoteRepository : INoteRepository
 {
-    private List<NoteRecord> _notes = new List<NoteRecord>();
+    private List<NoteDto> _notes = new List<NoteDto>();
     
-    public async Task<NoteRecord> GetById(Guid id)
+    public async Task<NoteDto> GetById(Guid id)
     {
         return (await Task.FromResult(_notes.FirstOrDefault(x => x.Id == id)))!;
     }
 
-    public async Task<IList<NoteRecord>> GetAll()
+    public async Task<List<NoteDto>> GetAll()
     {
         return await Task.FromResult(_notes);
     }
 
-    public async Task<IList<NoteRecord>> GetByCollection(Guid collectionId)
+    public async Task<List<NoteDto>> GetNotesForCollection(Guid collectionId)
     {
-        return await Task.FromResult(_notes.Where(x => x.CollectionRecord.Id == collectionId).ToList());
+        return await Task.FromResult(_notes.Where(x => x.CollectionRecordId == collectionId).ToList());
     }
 
-    public async Task<NoteRecord> Add(NoteRecord noteRecord)
+    public async Task<NoteDto> Add(NoteDto note)
     {
-        _notes.Add(noteRecord);
-        return await Task.FromResult(noteRecord);
+        _notes.Add(note);
+        return await Task.FromResult(note);
     }
 
-    public async Task<NoteRecord> Update(NoteRecord noteRecord)
+    public async Task<NoteDto> Update(NoteDto note)
     {
-        _notes.FirstOrDefault(n => n.Id == noteRecord.Id);
-        return await Task.FromResult(noteRecord);
+        _notes.FirstOrDefault(n => n.Id == note.Id);
+        return await Task.FromResult(note);
     }
 
-    public async Task<IList<NoteRecord>> GetArchivedNotes()
+    public async Task<List<NoteDto>> GetArchivedNotes()
     {
         return await Task.FromResult(_notes.Where(x => x.IsArchived).ToList());
     }

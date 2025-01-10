@@ -12,7 +12,7 @@ public sealed class WhenThereAreNoNotesPresent
 {
     private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
-    private Result<IList<NoteRecord>> _result;
+    private Result<List<NoteDto>> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
