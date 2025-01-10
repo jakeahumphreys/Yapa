@@ -1,0 +1,13 @@
+﻿<MudDialog Style="position: relative;">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Add Collection</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField Label="Collection Name" @bind-Value="_collectionName" For="@(() => _collectionName)"
+                      Error="@(!string.IsNullOrEmpty(_errorMessage))" HelperText="@_errorMessage" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="() => CloseDialog(false)" Color="Color.Secondary">Cancel</MudButton>
+        <MudButton OnClick="AddCollection" Color="Color.Primary">Confirm</MudButton>
+    </DialogActions>
+</MudDialog>
