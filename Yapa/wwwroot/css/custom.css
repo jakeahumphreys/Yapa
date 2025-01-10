@@ -1,0 +1,47 @@
+.hover-effect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+}
+
+.hover-effect:hover {
+    transform: scale(1.05);
+    /*box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);*/
+}
+
+.fold-effect-corner {
+    transition: border-width 0.2s ease;
+    border-radius: 12px; 
+    position: relative;
+    overflow: hidden;
+}
+
+.fold-effect-corner {
+    transition: border-width 0.2s ease;
+    border-radius: 12px; 
+    position: relative;
+    overflow: hidden;
+}
+
+.fold-effect-corner:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0; 
+    border-style: solid;
+    width: 0;
+    border-width: 0px; 
+    border-color: #FFF rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.3) #FFF;
+    border-radius: 0 0 12px 0; 
+    transition: border-width 0.2s ease, transform 0.2s ease;
+}
+
+.fold-effect-corner:hover:before {
+    border-width: 12px; 
+    transform: scaleX(-1); 
+}
+
+
+
+
+
+

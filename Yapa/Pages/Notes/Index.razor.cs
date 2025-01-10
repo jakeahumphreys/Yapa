@@ -42,4 +42,9 @@ public partial class Index : ComponentBase
             StateHasChanged();
         }
     }
+
+    private async Task HandleClick()
+    {
+        await Task.CompletedTask;
+    }
 }

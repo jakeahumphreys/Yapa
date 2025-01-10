@@ -5,26 +5,19 @@ You have @Collections.Count collections :)
 
 @if (Collections.Count > 0)
 {
-    foreach (var collection in Collections)
-    {
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.h6">@collection.Name</MudText>
-                    <MudText Typo="Typo.caption">@collection.Id.ToString()</MudText>
-                </CardHeaderContent>
-                <CardHeaderActions>
-                    <MudIconButton Icon="@Icons.Material.Filled.Archive" Color="Color.Default" />
-                </CardHeaderActions>
-            </MudCardHeader>
-            <MudCardContent>
-                <MudText>@collection.Notes.Count Notes</MudText>
-            </MudCardContent>
-            <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary">View Notes</MudButton>
-            </MudCardActions>
-        </MudCard>
-    }
+    <MudGrid Spacing="3" Justify="Justify.Center">
+        @foreach (var collection in Collections)
+        {
+            <MudItem>
+                <div style="position: relative; display: inline-block" Class="hover-effect" @onclick="HandleClick">
+                    <div Class="rounded-lg ma-4 fold-effect-corner">
+                        <MudImage Src="https://images.unsplash.com/photo-1735595065393-0a600eb5a18d?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" Width="200" Height="270" Elevation="25"/>
+                    </div>
+                    <MudChip T="string" Style="position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);">@collection.Name</MudChip>
+                </div>
+            </MudItem>
+        }
+    </MudGrid>
 }
 
 <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Label="Add Collection" OnClick="OpenCreateCollectionModal" Style="position: fixed; bottom: 16px; right: 16px; z-index: 1000;"/>
