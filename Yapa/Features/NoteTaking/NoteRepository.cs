@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
+using NHibernate.Linq;
 using Yapa.Features.NoteTaking.Types;
 
 namespace Yapa.Features.NoteTaking;
@@ -60,8 +61,10 @@ public class NoteRepository : INoteRepository
     public async Task<List<NoteDto>> GetNotesForCollection(Guid collectionId)
     {
         using var session = _sessionFactory.OpenSession();
-        var results = await session.Query<NoteRecord>()
-            .Where(note => note.CollectionRecord.Id == collectionId)
+        var results = await session.QueryOver<NoteRecord>()
+            .Where(note => note.CollectionRecord.Id == collectionId).ListAsync();
+
+        var dtoResults = results
             .Select(x => new NoteDto
             {
                 Id = x.Id,
@@ -71,9 +74,9 @@ public class NoteRepository : INoteRepository
                 CreatedOn = x.CreatedOn,
                 ModifiedOn = x.ModifiedOn,
                 CollectionRecordId = x.CollectionRecord.Id
-            }).ToListAsync();
+            }).ToList();
         
-        return results;
+        return dtoResults;
     }
 
     public async Task<NoteDto> Add(NoteDto note)
