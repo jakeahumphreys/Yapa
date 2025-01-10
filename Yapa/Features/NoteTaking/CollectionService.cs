@@ -24,6 +24,9 @@ public sealed class CollectionService
 
     public async Task<Result<CollectionRecord>>AddCollection(string collectionName)
     {
+        if(string.IsNullOrWhiteSpace(collectionName))
+            return Result<CollectionRecord>.Failure("Collection name cannot be empty");
+            
         var collectionRecord = new CollectionRecord
         {
             Id = Guid.NewGuid(),
