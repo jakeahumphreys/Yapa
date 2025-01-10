@@ -31,7 +31,7 @@ public sealed class WhenCollectionsArePresent
             IsArchived = true
         });
         
-        var subject = new CollectionService(repository, new FakeTimeProvider());
+        var subject = new CollectionService(repository);
         _result = await subject.GetAll();
 
     }

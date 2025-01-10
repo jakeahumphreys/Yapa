@@ -9,12 +9,10 @@ namespace Yapa.Modules.NoteTaking;
 public sealed class CollectionService
 {
     private readonly ICollectionRepository _collectionRepository;
-    private readonly TimeProvider _timeProvider;
 
-    public CollectionService(ICollectionRepository collectionRepository, TimeProvider timeProvider)
+    public CollectionService(ICollectionRepository collectionRepository)
     {
         _collectionRepository = collectionRepository;
-        _timeProvider = timeProvider;
     }
 
     public async Task<Result<List<CollectionRecord>>> GetAll()
