@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -14,6 +15,8 @@ public partial class Index : ComponentBase
     
     [Inject]
     public IDialogService DialogService { get; set; }
+    
+    [Inject] private NavigationManager NavigationManager { get; set; }
     
     private List<CollectionDto> Collections { get; set; }
 
@@ -43,8 +46,8 @@ public partial class Index : ComponentBase
         }
     }
 
-    private async Task HandleClick()
+    private async Task HandleClick(Guid collectionId)
     {
-        await Task.CompletedTask;
+        NavigationManager.NavigateTo($"/notes/collection/{collectionId.ToString()}");
     }
 }

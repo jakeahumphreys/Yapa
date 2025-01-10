@@ -9,7 +9,7 @@ You have @Collections.Count collections :)
         @foreach (var collection in Collections)
         {
             <MudItem>
-                <div style="position: relative; display: inline-block" Class="hover-effect" @onclick="HandleClick">
+                <div style="position: relative; display: inline-block" Class="hover-effect" @onclick=" () => HandleClick(collection.Id)">
                     <div Class="rounded-lg ma-4 fold-effect-corner">
                         <MudImage Src="https://images.unsplash.com/photo-1735595065393-0a600eb5a18d?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" Width="200" Height="270" Elevation="25"/>
                     </div>
