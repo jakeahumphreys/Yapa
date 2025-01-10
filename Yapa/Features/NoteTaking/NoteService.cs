@@ -31,9 +31,6 @@ public class NoteService
     {
         var allNotes = await _noteRepository.GetAll();
         
-        if(allNotes.Count == 0)
-            return Result<IList<NoteRecord>>.Failure($"No notes found");
-        
         return Result<IList<NoteRecord>>.Success(allNotes);
     }
 

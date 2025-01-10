@@ -25,12 +25,13 @@ public sealed class WhenThereAreNoNotesPresent
     }
 
     [Test]
-    public void ThenAnErrorIsReturned()
+    public void ThenAnEmptyListIsReturned()
     {
         Assert.Multiple((() =>
         {
-            Assert.That(_result.HasError, Is.True);
-            Assert.That(_result.ErrorMessage, Is.EqualTo("No notes found"));
+            Assert.That(_result.HasError, Is.False);
+            Assert.That(_result.ErrorMessage, Is.EqualTo(string.Empty));
+            Assert.That(_result.Content, Is.Empty);
         }));
       
     }

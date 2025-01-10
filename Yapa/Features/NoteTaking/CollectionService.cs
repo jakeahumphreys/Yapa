@@ -18,9 +18,6 @@ public sealed class CollectionService
     public async Task<Result<List<CollectionRecord>>> GetAll()
     {
         var collectionRecords = await _collectionRepository.GetAll();
-
-        if (collectionRecords.Count == 0)
-            return Result<List<CollectionRecord>>.Failure("No collection records found");
         
         return Result<List<CollectionRecord>>.Success(collectionRecords);
     }
