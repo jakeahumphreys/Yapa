@@ -18,7 +18,7 @@ public class NoteService
         _timeProvider = timeProvider;
     }
 
-    public async Task<Result<NoteDto>> GetNoteById(Guid id)
+    public async Task<Result<NoteDto>> GetNoteById(int id)
     {
         var noteById = await _noteRepository.GetById(id);
         
@@ -35,7 +35,7 @@ public class NoteService
         return Result<List<NoteDto>>.Success(allNotes);
     }
 
-    public async Task<Result<List<NoteDto>>> GetNotesForCollection(Guid collectionId)
+    public async Task<Result<List<NoteDto>>> GetNotesForCollection(int collectionId)
     {
         var notesForCollection = await _noteRepository.GetNotesForCollection(collectionId);
         
@@ -52,7 +52,6 @@ public class NoteService
 
     public async Task<Result<NoteDto>> CreateNote(NoteDto noteDto)
     {
-        noteDto.Id = Guid.NewGuid();
         noteDto.CreatedOn = _timeProvider.GetUtcNow().DateTime;
         noteDto.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
         await _noteRepository.Add(noteDto);

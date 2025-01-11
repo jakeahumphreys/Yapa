@@ -5,7 +5,7 @@ namespace Yapa.Features.NoteTaking.Types;
 
 public class NoteRecord
 {
-    public virtual Guid Id { get; set; }
+    public virtual int Id { get; set; }
     public virtual CollectionRecord CollectionRecord { get; set; }
     public virtual string Title { get; set; }
     public virtual string Content { get; set; }
@@ -16,8 +16,8 @@ public class NoteRecord
 
 public class NoteDto
 {
-    public Guid Id { get; set; }
-    public virtual Guid CollectionRecordId { get; set; }
+    public int Id { get; set; }
+    public virtual int CollectionRecordId { get; set; }
     public virtual string Title { get; set; }
     public virtual string Content { get; set; }
     public virtual DateTime CreatedOn { get; set; }
@@ -30,8 +30,8 @@ public class NoteMap : ClassMap<NoteRecord>
     public NoteMap()
     {
         Table("Notes");
-        
-        Id(x => x.Id).GeneratedBy.Assigned();
+
+        Id(x => x.Id).GeneratedBy.Identity();
         Map(x => x.Title).Not.Nullable();
         Map(x => x.Content).Not.Nullable();
         Map(x => x.CreatedOn).Not.Nullable();

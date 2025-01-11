@@ -11,7 +11,7 @@ namespace Yapa.Test.Features.NoteTaking.GivenGetNoteById;
 public sealed class WhenTheNoteExists
 {
     private FakeTimeProvider _timeProvider;
-    private Guid _noteId;
+    private int _noteId;
     private FakeNoteRepository _noteRepository;
     private Result<NoteDto> _result;
 
@@ -19,7 +19,7 @@ public sealed class WhenTheNoteExists
     public async Task Setup()
     {
         _noteRepository = new FakeNoteRepository();
-        _noteId = Guid.Parse("a83d6396-9a27-4ce9-a488-a3cc8c181ab5");
+        _noteId = 1;
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
@@ -11,7 +12,7 @@ public interface ICollectionRepository
 {
     public Task<List<CollectionDto>> GetAll();
     public Task<CollectionDto> Add(CollectionDto collection);
-    public Task<CollectionDto> GetById(Guid id);
+    public Task<CollectionDto> GetById(int id);
 }
 
 public sealed class CollectionRepository : ICollectionRepository
@@ -46,22 +47,13 @@ public sealed class CollectionRepository : ICollectionRepository
     public async Task<CollectionDto> Add(CollectionDto collection)
     {
         using var session = _sessionFactory.OpenSession();
-        using var transaction = session.BeginTransaction();
+        using var transaction = session.BeginTransaction(IsolationLevel.ReadCommitted);
 
         var record = new CollectionRecord
         {
             Id = collection.Id,
             Name = collection.Name,
-            IsArchived = collection.IsArchived,
-            Notes = collection.Notes.Select(x => new NoteRecord
-            {
-                Id = x.Id,
-                Content = x.Content,
-                IsArchived = x.IsArchived,
-                Title = x.Title,
-                CreatedOn = x.CreatedOn,
-                ModifiedOn = x.ModifiedOn
-            }).ToList()
+            IsArchived = collection.IsArchived
         };
 
         await session.SaveAsync(record);
@@ -69,7 +61,7 @@ public sealed class CollectionRepository : ICollectionRepository
         return collection;
     }
     
-    public async Task <CollectionDto> GetById(Guid id)
+    public async Task <CollectionDto> GetById(int id)
     {
         using var session = _sessionFactory.OpenSession();
         var result = await session.GetAsync<CollectionRecord>(id);

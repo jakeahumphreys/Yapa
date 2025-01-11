@@ -23,6 +23,7 @@ public sealed class WhenTheNoteIsAdded
 
         await subject.CreateNote(new NoteDto
         {
+            Id = 1,
             Content = "Test Content",
             Title = "Test Note",
             IsArchived = false,
@@ -43,7 +44,7 @@ public sealed class WhenTheNoteIsAdded
             Assert.That(_result.Content.First().CreatedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
             Assert.That(_result.Content.First().ModifiedOn, Is.EqualTo(_timeProvider.GetUtcNow().DateTime));
             Assert.That(_result.Content.First().IsArchived, Is.False);
-            Assert.That(_result.Content.First().Id, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(_result.Content.First().Id, Is.Not.EqualTo(0));
        });
     }
 }

@@ -46,7 +46,7 @@ public partial class Index : ComponentBase
         }
     }
 
-    private async Task HandleClick(Guid collectionId)
+    private async Task HandleClick(int collectionId)
     {
         NavigationManager.NavigateTo($"/notes/collection/{collectionId.ToString()}");
     }

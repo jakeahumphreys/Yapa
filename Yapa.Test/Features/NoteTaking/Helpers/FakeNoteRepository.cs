@@ -7,7 +7,7 @@ public sealed class FakeNoteRepository : INoteRepository
 {
     private List<NoteDto> _notes = new List<NoteDto>();
     
-    public async Task<NoteDto> GetById(Guid id)
+    public async Task<NoteDto> GetById(int id)
     {
         return (await Task.FromResult(_notes.FirstOrDefault(x => x.Id == id)))!;
     }
@@ -17,7 +17,7 @@ public sealed class FakeNoteRepository : INoteRepository
         return await Task.FromResult(_notes);
     }
 
-    public async Task<List<NoteDto>> GetNotesForCollection(Guid collectionId)
+    public async Task<List<NoteDto>> GetNotesForCollection(int collectionId)
     {
         return await Task.FromResult(_notes.Where(x => x.CollectionRecordId == collectionId).ToList());
     }

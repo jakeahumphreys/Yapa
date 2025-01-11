@@ -29,7 +29,6 @@ public sealed class CollectionService
             
         var collectionRecord = new CollectionDto()
         {
-            Id = Guid.NewGuid(),
             Name = collectionName,
             IsArchived = false,
         };
@@ -37,7 +36,7 @@ public sealed class CollectionService
         return Result<CollectionDto>.Success(collectionRecord);
     }
 
-    public async Task<Result<CollectionDto>> GetById(Guid id)
+    public async Task<Result<CollectionDto>> GetById(int id)
     {
         var result = await _collectionRepository.GetById(id);
         

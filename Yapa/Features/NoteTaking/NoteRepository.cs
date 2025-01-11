@@ -11,9 +11,9 @@ namespace Yapa.Features.NoteTaking;
 
 public interface INoteRepository
 {
-    Task<NoteDto> GetById(Guid id);
+    Task<NoteDto> GetById(int id);
     Task<List<NoteDto>> GetAll();
-    Task<List<NoteDto>> GetNotesForCollection(Guid collectionId);
+    Task<List<NoteDto>> GetNotesForCollection(int collectionId);
     Task<NoteDto> Add(NoteDto note);
     Task<NoteDto> Update(NoteDto noteRecord);
     Task<List<NoteDto>> GetArchivedNotes();
@@ -28,7 +28,7 @@ public class NoteRepository : INoteRepository
         _sessionFactory = sessionFactory;
     }
 
-    public async Task<NoteDto> GetById(Guid id)
+    public async Task<NoteDto> GetById(int id)
     {
         using var session = _sessionFactory.OpenSession();
         var result = await session.GetAsync<NoteRecord>(id);
@@ -58,7 +58,7 @@ public class NoteRepository : INoteRepository
         return results;
     }
 
-    public async Task<List<NoteDto>> GetNotesForCollection(Guid collectionId)
+    public async Task<List<NoteDto>> GetNotesForCollection(int collectionId)
     {
         using var session = _sessionFactory.OpenSession();
         var results = await session.QueryOver<NoteRecord>()
@@ -86,7 +86,6 @@ public class NoteRepository : INoteRepository
 
         var record = new NoteRecord
         {
-            Id = note.Id,
             Title = note.Title,
             Content = note.Content,
             IsArchived = note.IsArchived,
@@ -96,6 +95,9 @@ public class NoteRepository : INoteRepository
 
         await session.SaveAsync(record);
         await transaction.CommitAsync();
+
+        note.Id = record.Id;
+        
         return note;
     }
 

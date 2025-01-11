@@ -23,9 +23,9 @@ public partial class EditNote : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        if(Guid.TryParse(NoteId, out var noteIdGuid) && noteIdGuid != Guid.Empty)
+        if(int.TryParse(NoteId, out var noteInt) && noteInt != 0)
         {
-            var noteResult = await NoteService.GetNoteById(noteIdGuid);
+            var noteResult = await NoteService.GetNoteById(noteInt);
             if (noteResult.HasError)
             {
                 //handle error
@@ -37,7 +37,7 @@ public partial class EditNote : ComponentBase
         {
             note = new NoteDto
             {
-                Id = Guid.Empty,
+                Id = 0,
                 Content = string.Empty,
                 CreatedOn = DateTime.UtcNow,
                 Title = string.Empty,
@@ -78,7 +78,7 @@ public partial class EditNote : ComponentBase
     {
         if (note != null)
         {
-            if (note.Id == Guid.Empty)
+            if (note.Id == 0)
             {
                 note.Title = inputValue.Length > 10 ? inputValue.Substring(0, 10) : inputValue;
                 note.Content = inputValue;

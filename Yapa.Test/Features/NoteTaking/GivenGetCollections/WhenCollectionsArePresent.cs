@@ -18,14 +18,14 @@ public sealed class WhenCollectionsArePresent
 
         await repository.Add(new CollectionDto
         {
-            Id = Guid.Parse("270c3970-d4b1-48b6-b4d4-cec5ee13e30a"),
+            Id = 1,
             Name = "Test Collection 1",
             IsArchived = false
         });
         
         await repository.Add(new CollectionDto
         {
-            Id = Guid.Parse("c2a3fa7b-1298-46db-b94b-e0bb659c00c3"),
+            Id = 2,
             Name = "Test Collection 2",
             IsArchived = true
         });
@@ -46,10 +46,10 @@ public sealed class WhenCollectionsArePresent
     {
         Assert.Multiple(() =>
         {
-            Assert.That(_result.Content.First().Id, Is.EqualTo(Guid.Parse("270c3970-d4b1-48b6-b4d4-cec5ee13e30a")));
+            Assert.That(_result.Content.First().Id, Is.EqualTo(1));
             Assert.That(_result.Content.First().Name, Is.EqualTo("Test Collection 1"));
             Assert.That(_result.Content.First().IsArchived, Is.False);
-            Assert.That(_result.Content.Last().Id, Is.EqualTo(Guid.Parse("c2a3fa7b-1298-46db-b94b-e0bb659c00c3")));
+            Assert.That(_result.Content.Last().Id, Is.EqualTo(2));
             Assert.That(_result.Content.Last().Name, Is.EqualTo("Test Collection 2"));
             Assert.That(_result.Content.Last().IsArchived, Is.True);
         });

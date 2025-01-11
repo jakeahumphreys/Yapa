@@ -12,14 +12,14 @@ public sealed class WhenTheNoteToUpdateDoesNotExist
 {
     private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
-    private Guid _noteId;
+    private int _noteId;
     private Result<NoteDto> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
     {
         _noteRepository = new FakeNoteRepository();
-        _noteId = Guid.Parse("a83d6396-9a27-4ce9-a488-a3cc8c181ab5");
+        _noteId = 1;
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
         var note = new NoteDto
@@ -43,7 +43,7 @@ public sealed class WhenTheNoteToUpdateDoesNotExist
         Assert.Multiple((() =>
         {
             Assert.That(_result.HasError, Is.True);
-            Assert.That(_result.ErrorMessage, Is.EqualTo("A note with id a83d6396-9a27-4ce9-a488-a3cc8c181ab5 was not found"));
+            Assert.That(_result.ErrorMessage, Is.EqualTo("A note with id 1 was not found"));
         }));
     }
 }
