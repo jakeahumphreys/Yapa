@@ -17,4 +17,10 @@ public sealed class FakeCollectionRepository : ICollectionRepository
         _collections.Add(record);
         return await Task.FromResult(record);
     }
+
+    public async Task<CollectionDto> GetById(Guid id)
+    {
+        var result = _collections.FirstOrDefault(x => x.Id == id)!;
+        return await Task.FromResult(result);
+    }
 }

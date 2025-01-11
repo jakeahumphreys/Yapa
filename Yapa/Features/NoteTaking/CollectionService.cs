@@ -36,4 +36,14 @@ public sealed class CollectionService
         await _collectionRepository.Add(collectionRecord);
         return Result<CollectionDto>.Success(collectionRecord);
     }
+
+    public async Task<Result<CollectionDto>> GetById(Guid id)
+    {
+        var result = await _collectionRepository.GetById(id);
+        
+        if(result == null)
+            return Result<CollectionDto>.Failure($"No collection exists with Id {id}");
+        
+        return Result<CollectionDto>.Success(result);
+    }
 }

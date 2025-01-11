@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
@@ -10,6 +11,7 @@ public interface ICollectionRepository
 {
     public Task<List<CollectionDto>> GetAll();
     public Task<CollectionDto> Add(CollectionDto collection);
+    public Task<CollectionDto> GetById(Guid id);
 }
 
 public sealed class CollectionRepository : ICollectionRepository
@@ -65,5 +67,27 @@ public sealed class CollectionRepository : ICollectionRepository
         await session.SaveAsync(record);
         await transaction.CommitAsync();
         return collection;
+    }
+    
+    public async Task <CollectionDto> GetById(Guid id)
+    {
+        using var session = _sessionFactory.OpenSession();
+        var result = await session.GetAsync<CollectionRecord>(id);
+
+        return new CollectionDto
+        {
+            Id = result.Id,
+            Name = result.Name,
+            IsArchived = result.IsArchived,
+            Notes = result.Notes.Select(x => new NoteDto
+            {
+                Id = x.Id,
+                Content = x.Content,
+                IsArchived = x.IsArchived,
+                CreatedOn = x.CreatedOn,
+                ModifiedOn = x.ModifiedOn,
+                Title = x.Title
+            }).ToList()
+        };
     }
 }
