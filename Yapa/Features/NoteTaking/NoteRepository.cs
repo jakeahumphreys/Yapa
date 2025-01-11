@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
-using NHibernate.Linq;
 using Yapa.Features.NoteTaking.Types;
 
 namespace Yapa.Features.NoteTaking;
@@ -90,7 +88,11 @@ public class NoteRepository : INoteRepository
             Content = note.Content,
             IsArchived = note.IsArchived,
             CreatedOn = note.CreatedOn,
-            ModifiedOn = note.ModifiedOn
+            ModifiedOn = note.ModifiedOn,
+            CollectionRecord = new CollectionRecord
+            {
+                Id = note.CollectionRecordId
+            }
         };
 
         await session.SaveAsync(record);
