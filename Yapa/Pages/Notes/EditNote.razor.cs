@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Yapa.Features.NoteTaking;
 using Yapa.Features.NoteTaking.Types;
 
@@ -12,6 +13,8 @@ public partial class EditNote : ComponentBase
     [Parameter] public string NoteId { get; set; }
     [Parameter] public string CollectionId { get; set; }
     [Inject] private NoteService NoteService { get; set; }
+    [Inject] ISnackbar Snackbar { get; set; }
+    
     private NoteDto note;
     private CancellationTokenSource _debounceCts;
 
@@ -87,6 +90,8 @@ public partial class EditNote : ComponentBase
                 note.Content = inputValue;
                 await NoteService.UpdateNote(note);
             }
+            
+            Snackbar.Add($"Note Saved", Severity.Success);
         }
     }
 }
