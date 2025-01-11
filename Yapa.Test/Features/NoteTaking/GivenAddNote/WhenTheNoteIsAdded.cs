@@ -11,15 +11,15 @@ namespace Yapa.Test.Features.NoteTaking.GivenAddNote;
 public sealed class WhenTheNoteIsAdded
 {
     private FakeTimeProvider _timeProvider;
-    private FakeNoteRepository _noteRepository;
     private Result<List<NoteDto>> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
     {
-        _noteRepository = new FakeNoteRepository();
+        var noteRepository = new FakeNoteRepository();
+        var collectionRepository = new FakeCollectionRepository();
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
-        var subject = new NoteService(_noteRepository, _timeProvider);
+        var subject = new NoteService(noteRepository, collectionRepository, _timeProvider);
 
         await subject.CreateNote(new NoteDto
         {

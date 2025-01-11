@@ -80,6 +80,7 @@ public partial class EditNote : ComponentBase
         {
             if (note.Id == 0)
             {
+                note.CollectionRecordId = int.Parse(CollectionId);
                 note.Title = inputValue.Length > 10 ? inputValue.Substring(0, 10) : inputValue;
                 note.Content = inputValue;
                 var createdNote = await NoteService.CreateNote(note);

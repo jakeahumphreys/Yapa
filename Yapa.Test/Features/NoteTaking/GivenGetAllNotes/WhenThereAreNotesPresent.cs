@@ -10,17 +10,18 @@ namespace Yapa.Test.Features.NoteTaking.GivenGetAllNotes;
 [Parallelizable]
 public sealed class WhenThereAreNotesPresent
 {
-    private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
     private Result<List<NoteDto>> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
     {
-        _noteRepository = new FakeNoteRepository();
+        var noteRepository = new FakeNoteRepository();
+        var collectionRepository = new FakeCollectionRepository();
+        
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
         
-       await _noteRepository.Add(new NoteDto
+       await noteRepository.Add(new NoteDto
        {
             Id = 1,
             Content = "Test Content",
@@ -30,7 +31,7 @@ public sealed class WhenThereAreNotesPresent
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
        });
 
-        await _noteRepository.Add(new NoteDto
+        await noteRepository.Add(new NoteDto
         {
             Id = 2,
             Content = "Test Content",
@@ -40,7 +41,7 @@ public sealed class WhenThereAreNotesPresent
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
         });
         
-        var subject = new NoteService(_noteRepository, _timeProvider);
+        var subject = new NoteService(noteRepository, collectionRepository, _timeProvider);
         _result = await subject.GetAllNotes();
     }
 

@@ -10,11 +10,13 @@ namespace Yapa.Features.NoteTaking;
 public class NoteService
 {
     private readonly INoteRepository _noteRepository;
+    private readonly ICollectionRepository _collectionRepository;
     private readonly TimeProvider _timeProvider;
 
-    public NoteService(INoteRepository noteRepository, TimeProvider timeProvider)
+    public NoteService(INoteRepository noteRepository, ICollectionRepository collectionRepository, TimeProvider timeProvider)
     {
         _noteRepository = noteRepository;
+        _collectionRepository = collectionRepository;
         _timeProvider = timeProvider;
     }
 
@@ -54,6 +56,12 @@ public class NoteService
     {
         noteDto.CreatedOn = _timeProvider.GetUtcNow().DateTime;
         noteDto.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
+
+        var collection = _collectionRepository.GetById(noteDto.CollectionRecordId);
+        
+        if(collection == null)
+            return Result<NoteDto>.Failure($"A collection with id {noteDto.CollectionRecordId} does not exist");
+        
         await _noteRepository.Add(noteDto);
         return Result<NoteDto>.Success(noteDto);
     }

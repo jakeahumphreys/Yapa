@@ -10,7 +10,6 @@ namespace Yapa.Test.Features.NoteTaking.GivenANoteUpdate;
 [Parallelizable]
 public sealed class WhenTheNoteToUpdateExists
 {
-    private FakeNoteRepository _noteRepository;
     private FakeTimeProvider _timeProvider;
     private int _noteId;
     private Result<NoteDto> _result;
@@ -18,7 +17,9 @@ public sealed class WhenTheNoteToUpdateExists
     [OneTimeSetUp]
     public async Task Setup()
     {
-        _noteRepository = new FakeNoteRepository();
+        var noteRepository = new FakeNoteRepository();
+        var collectionRepository = new FakeCollectionRepository();
+        
         _noteId = 1;
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
@@ -32,9 +33,9 @@ public sealed class WhenTheNoteToUpdateExists
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
         };
 
-        await _noteRepository.Add(note);
+        await noteRepository.Add(note);
         
-        var subject = new NoteService(_noteRepository, _timeProvider);
+        var subject = new NoteService(noteRepository, collectionRepository, _timeProvider);
 
         note.IsArchived = true;
         note.Title = "Updated Note";

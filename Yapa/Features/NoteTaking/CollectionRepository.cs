@@ -58,6 +58,9 @@ public sealed class CollectionRepository : ICollectionRepository
 
         await session.SaveAsync(record);
         await transaction.CommitAsync();
+
+        collection.Id = record.Id;
+        
         return collection;
     }
     

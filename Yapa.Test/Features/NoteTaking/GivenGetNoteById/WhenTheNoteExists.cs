@@ -12,18 +12,19 @@ public sealed class WhenTheNoteExists
 {
     private FakeTimeProvider _timeProvider;
     private int _noteId;
-    private FakeNoteRepository _noteRepository;
     private Result<NoteDto> _result;
 
     [OneTimeSetUp]
     public async Task Setup()
     {
-        _noteRepository = new FakeNoteRepository();
+        var noteRepository = new FakeNoteRepository();
+        var collectionRepository = new FakeCollectionRepository();
+        
         _noteId = 1;
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
 
 
-        await _noteRepository.Add(new NoteDto
+        await noteRepository.Add(new NoteDto
         {
             Id = _noteId,
             Content = "Test Content",
@@ -33,7 +34,7 @@ public sealed class WhenTheNoteExists
             CreatedOn = _timeProvider.GetUtcNow().DateTime,
         });
         
-        var subject = new NoteService(_noteRepository, _timeProvider);
+        var subject = new NoteService(noteRepository, collectionRepository, _timeProvider);
         _result = await subject.GetNoteById(_noteId);
     }
     
