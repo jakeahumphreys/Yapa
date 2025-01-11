@@ -18,7 +18,11 @@ public partial class Collection : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         var noteResults = await NoteService.GetNotesForCollection(int.Parse(CollectionId));
-        Notes = noteResults.Content;
+
+        if (noteResults.Content != null)
+            Notes = noteResults.Content;
+        else
+            Notes = new List<NoteDto>();
         
         await base.OnInitializedAsync();
     }
