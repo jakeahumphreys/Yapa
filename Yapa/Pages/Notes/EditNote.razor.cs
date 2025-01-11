@@ -15,6 +15,9 @@ public partial class EditNote : ComponentBase
     private NoteDto note;
     private CancellationTokenSource _debounceCts;
 
+    private DateTime LastSavedTime;
+    private string CurrentContent;
+
     protected override async Task OnInitializedAsync()
     {
         if(Guid.TryParse(NoteId, out var noteIdGuid) && noteIdGuid != Guid.Empty)
@@ -40,7 +43,7 @@ public partial class EditNote : ComponentBase
         }
     }
 
-    private async Task OnInputChanged(ChangeEventArgs args)
+    private async Task OnInputChanged(string value)
     {
         _debounceCts?.Cancel();
         _debounceCts?.Dispose();
@@ -48,13 +51,18 @@ public partial class EditNote : ComponentBase
 
         try
         {
-            var inputValue = args.Value?.ToString();
+            var inputValue = value;
             
             await Task.Delay(1500, _debounceCts.Token);
 
             if (!string.IsNullOrEmpty(inputValue))
             {
+                CurrentContent = inputValue;
+                
                 await Save(inputValue);
+                
+                LastSavedTime = DateTime.Now;
+                StateHasChanged();
             }
         }
         catch (TaskCanceledException e)

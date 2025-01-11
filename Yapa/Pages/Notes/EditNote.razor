@@ -5,10 +5,8 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="form-group">
-        <label for="content">Note Content</label>
-        <textarea id="content" class="form-control" @bind="note.Content" @oninput="OnInputChanged"></textarea>
-    </div>
+    <MudTextField T="string" Label="Note" Variant="Variant.Text" Value="@CurrentContent" ValueChanged="OnInputChanged" Lines="5" Immediate="true"/>
+    <p>Last saved at: @LastSavedTime.ToString()</p>
 </EditForm>
 
 @code {
