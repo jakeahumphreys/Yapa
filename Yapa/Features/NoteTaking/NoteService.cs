@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentNHibernate.Conventions;
 using Yapa.Common.Types;
 using Yapa.Features.NoteTaking.Types;
 
@@ -34,9 +35,14 @@ public class NoteService
         return Result<List<NoteDto>>.Success(allNotes);
     }
 
-    public async Task<List<NoteDto>> GetNotesForCollection(Guid collectionId)
+    public async Task<Result<List<NoteDto>>> GetNotesForCollection(Guid collectionId)
     {
-        return await _noteRepository.GetNotesForCollection(collectionId);
+        var notesForCollection = await _noteRepository.GetNotesForCollection(collectionId);
+        
+        if(notesForCollection.IsEmpty())
+            return Result<List<NoteDto>>.Failure("There no notes for the specified collection");
+        
+        return Result<List<NoteDto>>.Success(notesForCollection);
     }
 
     public async Task<List<NoteDto>> GetArchivedNotes()
@@ -44,13 +50,13 @@ public class NoteService
         return await _noteRepository.GetArchivedNotes();
     }
 
-    public async Task<NoteDto> CreateNote(NoteDto noteDto)
+    public async Task<Result<NoteDto>> CreateNote(NoteDto noteDto)
     {
         noteDto.Id = Guid.NewGuid();
         noteDto.CreatedOn = _timeProvider.GetUtcNow().DateTime;
         noteDto.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
         await _noteRepository.Add(noteDto);
-        return noteDto;
+        return Result<NoteDto>.Success(noteDto);
     }
 
     public async Task<Result<NoteDto>> UpdateNote(NoteDto noteDto)
