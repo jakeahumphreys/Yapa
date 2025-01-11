@@ -21,7 +21,7 @@ public sealed class WhenTheNoteIsAddedToAnInvalidCollection
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
         var subject = new NoteService(noteRepository, collectionRepository, _timeProvider);
 
-        collectionRepository.Add(new CollectionDto
+        await collectionRepository.Add(new CollectionDto
         {
             Id = 1,
             IsArchived = false,
