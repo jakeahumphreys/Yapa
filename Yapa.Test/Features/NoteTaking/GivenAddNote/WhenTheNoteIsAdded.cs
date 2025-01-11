@@ -21,12 +21,21 @@ public sealed class WhenTheNoteIsAdded
         _timeProvider = new FakeTimeProvider(DateTime.UtcNow);
         var subject = new NoteService(noteRepository, collectionRepository, _timeProvider);
 
+        collectionRepository.Add(new CollectionDto
+        {
+            Id = 1,
+            IsArchived = false,
+            Name = "Test Collection",
+            Notes = new List<NoteDto>()
+        });
+
         await subject.CreateNote(new NoteDto
         {
             Id = 1,
             Content = "Test Content",
             Title = "Test Note",
             IsArchived = false,
+            CollectionRecordId = 1
         });
         
         _result = await subject.GetAllNotes();
@@ -37,6 +46,7 @@ public sealed class WhenTheNoteIsAdded
     {
         Assert.Multiple(() =>
         {
+            Assert.That(_result.HasError, Is.False);
             Assert.That(_result.Content, Has.Count.EqualTo(1));
             
             Assert.That(_result.Content.First().Content, Is.EqualTo("Test Content"));

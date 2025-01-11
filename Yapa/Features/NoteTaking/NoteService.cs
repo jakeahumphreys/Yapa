@@ -57,7 +57,7 @@ public class NoteService
         noteDto.CreatedOn = _timeProvider.GetUtcNow().DateTime;
         noteDto.ModifiedOn = _timeProvider.GetUtcNow().DateTime;
 
-        var collection = _collectionRepository.GetById(noteDto.CollectionRecordId);
+        var collection = await _collectionRepository.GetById(noteDto.CollectionRecordId);
         
         if(collection == null)
             return Result<NoteDto>.Failure($"A collection with id {noteDto.CollectionRecordId} does not exist");
